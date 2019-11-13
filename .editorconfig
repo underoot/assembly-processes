@@ -1,0 +1,8 @@
+[root]
+indent_size = 2
+
+[*.tsx?]
+indent_size = 2
+
+[*rc]
+indent_size = 2
