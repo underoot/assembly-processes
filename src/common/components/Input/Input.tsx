@@ -59,11 +59,13 @@ export const Input = ({
     </StyledClear>
   );
 
+  const showClear = hasClear && Boolean(props.value);
+
   return (
     <StyledInput>
       {icon && <StyledIcon>{icon}</StyledIcon>}
       <StyledInputControl icon={icon} {...props} />
-      {hasClear && clearIcon}
+      {showClear && clearIcon}
     </StyledInput>
   );
 };
