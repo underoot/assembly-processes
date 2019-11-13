@@ -19,15 +19,15 @@ const StyledLogo = styled.div`
   background-position-y: bottom;
 `;
 
-const StyledTitle = styled.h1`
+export const StyledTitle = styled.h1`
   margin-left: 10px;
   font: var(--heading-size-large);
-  color: rgba(63, 68, 72, 0.6);
+  color: var(--color-heading);
 `;
 
 export const Header = ({ title }: IHeaderProps) => (
   <StyledHeader>
-    <StyledLogo tabIndex={0} />
+    <StyledLogo />
     {title && <StyledTitle>{title}</StyledTitle>}
   </StyledHeader>
 );
