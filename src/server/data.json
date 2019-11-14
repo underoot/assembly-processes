@@ -325,15 +325,6 @@
       "updated": "2015-12-08T11:07:57 -03:00"
     },
     {
-      "id": "5d4193afc0a7543854797853",
-      "img": "http://placehold.it/160x100",
-      "age": 27,
-      "assemblyStatus": "REVIEW_FINISHED",
-      "reviewStatus": "SIMULATION_POSITIVE",
-      "title": "22: REVERSUS v9",
-      "updated": "2019-03-25T09:19:13 -03:00"
-    },
-    {
       "id": "5d4193afb86ceb2de245816e",
       "img": "http://placehold.it/160x100",
       "age": 20,
@@ -1036,15 +1027,6 @@
       "updated": "2016-08-19T04:16:49 -03:00"
     },
     {
-      "id": "5d4193af31b9a572a64e0c18",
-      "img": "http://placehold.it/160x100",
-      "age": 37,
-      "assemblyStatus": "IN_REVIEW",
-      "reviewStatus": "DRAFT",
-      "title": "11: EDECINE v4",
-      "updated": "2018-12-04T07:33:30 -03:00"
-    },
-    {
       "id": "5d4193af6ee503069886e92a",
       "img": "http://placehold.it/160x100",
       "age": 27,
@@ -1621,15 +1603,6 @@
       "updated": "2016-01-12T01:40:38 -03:00"
     },
     {
-      "id": "5d4193af8a4deeaa75a9ccd1",
-      "img": "http://placehold.it/160x100",
-      "age": 28,
-      "assemblyStatus": "REVIEW_FINISHED",
-      "reviewStatus": "SIMULATION_NEGATIVE",
-      "title": "15: AQUAMATE v9",
-      "updated": "2019-04-04T11:58:24 -03:00"
-    },
-    {
       "id": "5d4193af0bc5e02f0b5c739c",
       "img": "http://placehold.it/160x100",
       "age": 35,
@@ -1745,15 +1718,6 @@
       "reviewStatus": "SIMULATION_POSITIVE",
       "title": "4: CAPSCREEN v9",
       "updated": "2019-02-23T06:09:14 -03:00"
-    },
-    {
-      "id": "5d4193af262a32b1cb23ce45",
-      "img": "http://placehold.it/160x100",
-      "age": 28,
-      "assemblyStatus": "REVIEW_FINISHED",
-      "reviewStatus": "SIMULATION_POSITIVE",
-      "title": "7: APPLICA v7",
-      "updated": "2019-03-25T05:50:49 -03:00"
     },
     {
       "id": "5d4193af6043e77c51519fb9",
@@ -2544,7 +2508,7 @@
       "age": 26,
       "assemblyStatus": "IN_REVIEW",
       "reviewStatus": "SIMULATION_NEGATIVE",
-      "title": "19: SNORUS v1",
+      "title": "19: SNORUS v2",
       "updated": "2014-12-01T03:47:56 -03:00"
     },
     {
@@ -2825,15 +2789,6 @@
       "reviewStatus": "SIMULATION_POSITIVE",
       "title": "20: GEEKOL v9",
       "updated": "2018-06-25T11:21:05 -03:00"
-    },
-    {
-      "id": "5d4193af43cfe567d341009d",
-      "img": "http://placehold.it/160x100",
-      "age": 20,
-      "assemblyStatus": "REVIEW_FINISHED",
-      "reviewStatus": "SOLVED",
-      "title": "16: ANOCHA v8",
-      "updated": "2014-08-30T10:27:30 -04:00"
     },
     {
       "id": "5d4193af80ef0ceb755ff5b3",

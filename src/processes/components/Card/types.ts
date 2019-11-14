@@ -1,5 +1,6 @@
 import {
   IProcess,
+  IProcessUpdate,
   ReviewStatus,
   AssemblyStatus
 } from 'processes/types/Process';
@@ -7,7 +8,7 @@ import {
 export interface ICardProps {
   process: IProcess;
   onDelete: (id: IProcess['id']) => void;
-  onChangeTitle: (id: IProcess['id'], title: IProcess['title']) => void;
+  onChangeTitle: (update: IProcessUpdate) => void;
 }
 
 export interface ICardReviewStatusProps {

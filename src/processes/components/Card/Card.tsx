@@ -155,13 +155,13 @@ export const Card = ({ process, onDelete, onChangeTitle }: ICardProps) => {
 
   const onBlur = () => {
     changeEditingStatus(false);
-    onChangeTitle(process.id, newTitle);
+    onChangeTitle({ id: process.id, title: newTitle });
   };
 
   const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       changeEditingStatus(false);
-      onChangeTitle(process.id, newTitle);
+      onChangeTitle({ id: process.id, title: newTitle });
     }
   };
 

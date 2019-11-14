@@ -12,3 +12,5 @@ export const setURLSearch = (params: object) => {
     })}`
   );
 };
+
+export const getURLSearch = <T>(): T => qs.parse(window.location.search);
