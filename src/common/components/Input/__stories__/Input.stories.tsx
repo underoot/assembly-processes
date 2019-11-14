@@ -1,9 +1,4 @@
-import React, {
-  ComponentType,
-  useState,
-  createElement,
-  ChangeEvent
-} from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import { storiesOf } from '@storybook/react';
 
 import { Input } from 'common/components/Input';
