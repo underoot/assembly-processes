@@ -77,6 +77,7 @@ export const useGetProcesses = (
       itemsSubscription.unsubscribe();
       countSubscription.unsubscribe();
     };
+    // eslint-disable-next-line
   }, [
     changeCount,
     changeProcesses,

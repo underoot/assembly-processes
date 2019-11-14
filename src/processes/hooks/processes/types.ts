@@ -1,12 +1,8 @@
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 import { SortOrder } from 'common/types';
 
-import {
-  AssemblyStatus,
-  ReviewStatus,
-  IProcess
-} from 'processes/types/Process';
+import { AssemblyStatus, ReviewStatus } from 'processes/types/Process';
 
 export interface ISearchParams {
   assemblyStatus: AssemblyStatus;
