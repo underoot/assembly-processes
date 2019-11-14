@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import { Global, css } from '@emotion/core';
 
-import { IStylesProps } from 'common/components/Styles/types';
 import { reset } from 'common/components/Styles/reset';
 import { fonts } from 'common/components/Styles/fonts';
 
@@ -52,9 +51,4 @@ const styles = css`
   ${system}
 `;
 
-export const Styles = ({ children }: IStylesProps) => (
-  <Fragment>
-    <Global styles={styles} />
-    {children}
-  </Fragment>
-);
+export const Styles = () => <Global styles={styles} />;
