@@ -1,11 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
-import { BehaviorSubject, combineLatest, Subject, queueScheduler } from 'rxjs';
+import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { debounceTime, map, distinctUntilChanged } from 'rxjs/operators';
 import qs from 'query-string';
 
 import { SortOrder, ICountable } from 'common/types';
 import { apiRequest, IAPIRequest } from 'common/operators/api';
 import { setURLSearch } from 'common/utils/url';
+import { useSubject } from 'common/hooks/subject';
 
 import {
   AssemblyStatus,
@@ -29,30 +30,34 @@ export const useProcesses = () => {
     searchTerm: searchTermSearch,
     sortOrder: sortOrderSearch
   } = getURLSearchParams();
+
   const [processes, changeProcesses] = useState([] as IProcess[]);
   const [count, changeCount] = useState(0);
-  const [assemblyStatus, changeAssemblyStatus] = useState(
-    assemblyStatusSearch || AssemblyStatus.ANY
-  );
-  const [reviewStatus, changeReviewStatus] = useState(
-    reviewStatusSearch || ReviewStatus.ANY
-  );
-  const [searchTerm, changeSearchTerm] = useState(searchTermSearch || '');
-  const [sortOrder, changeSortOrder] = useState(
-    sortOrderSearch || SortOrder.ASC
-  );
   const [page, changePage] = useState(-1);
 
-  const [assemblyStatus$] = useState(
-    new BehaviorSubject(assemblyStatusSearch || AssemblyStatus.ANY)
+  const resetPage = () => changePage(0);
+  const incrementPage = useCallback(() => changePage(page => page + 1), []);
+
+  const [assemblyStatus, assemblyStatus$, changeAssemblyStatus] = useSubject(
+    assemblyStatusSearch || AssemblyStatus.ANY,
+    resetPage
   );
-  const [reviewStatus$] = useState(
-    new BehaviorSubject(reviewStatusSearch || ReviewStatus.ANY)
+
+  const [reviewStatus, reviewStatus$, changeReviewStatus] = useSubject(
+    reviewStatusSearch || ReviewStatus.ANY,
+    resetPage
   );
-  const [searchTerm$] = useState(new BehaviorSubject(searchTermSearch || ''));
-  const [sortOrder$] = useState(
-    new BehaviorSubject(sortOrderSearch || SortOrder.ASC)
+
+  const [searchTerm, searchTerm$, changeSearchTerm] = useSubject(
+    searchTermSearch || '',
+    resetPage
   );
+
+  const [sortOrder, sortOrder$, changeSortOrder] = useSubject(
+    sortOrderSearch || SortOrder.ASC,
+    resetPage
+  );
+
   const [deleteProcess$] = useState(new Subject<IProcess['id']>());
   const [changeTitle$] = useState(
     new Subject<[IProcess['id'], IProcess['title']]>()
@@ -96,54 +101,18 @@ export const useProcesses = () => {
 
     const props = qs.parse(window.location.search);
 
-    Object.keys(serializableParams).map(key => {
+    return Object.keys(serializableParams).forEach(key => {
       if (props[key]) {
         serializableParams[key].next(props[key]);
       }
     });
-  }, []);
+  }, [assemblyStatus$, reviewStatus$, searchTerm$, sortOrder$]);
 
   useEffect(() => {
     window.addEventListener('popstate', updateStateFromURL);
 
     return () => window.removeEventListener('popstate', updateStateFromURL);
   });
-
-  useEffect(() => {
-    const s = assemblyStatus$.subscribe(assemblyStatus => {
-      changeAssemblyStatus(assemblyStatus);
-      changePage(0);
-    });
-
-    return () => s.unsubscribe();
-  }, [assemblyStatus$, changeAssemblyStatus]);
-
-  useEffect(() => {
-    const s = reviewStatus$.subscribe(reviewStatus => {
-      changeReviewStatus(reviewStatus);
-      changePage(0);
-    });
-
-    return () => s.unsubscribe();
-  }, [reviewStatus$, changeReviewStatus, page]);
-
-  useEffect(() => {
-    const s = searchTerm$.subscribe(searchTerm => {
-      changeSearchTerm(searchTerm);
-      changePage(0);
-    });
-
-    return () => s.unsubscribe();
-  }, [searchTerm$, changeSearchTerm, page]);
-
-  useEffect(() => {
-    const s = sortOrder$.subscribe(sortOrder => {
-      changeSortOrder(sortOrder);
-      changePage(0);
-    });
-
-    return () => s.unsubscribe();
-  }, [sortOrder$, changeSortOrder, page]);
 
   useEffect(() => {
     const processes$ = processesParams$.pipe(
@@ -251,11 +220,11 @@ export const useProcesses = () => {
     processes,
     page,
 
-    changeAssemblyStatus: assemblyStatus$.next.bind(assemblyStatus$),
-    changeReviewStatus: reviewStatus$.next.bind(reviewStatus$),
-    changeSearchTerm: searchTerm$.next.bind(searchTerm$),
-    changeSortOrder: sortOrder$.next.bind(sortOrder$),
-    incrementPage: useCallback(() => changePage(page => page + 1), []),
+    changeAssemblyStatus,
+    changeReviewStatus,
+    changeSearchTerm,
+    changeSortOrder,
+    incrementPage,
     clearSearchTerm: () => searchTerm$.next(''),
     deleteProcess: deleteProcess$.next.bind(deleteProcess$),
     changeTitle: (id: IProcess['id'], title: IProcess['title']) =>
