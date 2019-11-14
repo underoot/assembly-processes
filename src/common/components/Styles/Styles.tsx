@@ -8,10 +8,10 @@ import { fonts } from 'common/components/Styles/fonts';
 const system = css`
   :root {
     /* ## Цвета */
+    --color-default: #ffffff;
     --color-background: #f4f5f6;
     --color-background-control: #e1e5e6;
     --color-heading: #878b8d;
-    --color-default: #ffffff;
     --color-border: rgba(0, 0, 0, 0.15);
     --color-view: #2b7cee;
     --color-action: #ffc800;
