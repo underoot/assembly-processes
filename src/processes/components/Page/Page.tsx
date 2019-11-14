@@ -5,9 +5,6 @@ import { useProcesses } from 'processes/hooks/processes';
 import { Filter } from 'processes/components/Filter';
 import { ProcessesList } from 'processes/components/List';
 
-/**
- * @todo Добавить синхронизацию с URL
- */
 export const Page = () => {
   const {
     assemblyStatus,

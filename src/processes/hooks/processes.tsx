@@ -1,9 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
-import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
+import { BehaviorSubject, combineLatest, Subject, queueScheduler } from 'rxjs';
 import { debounceTime, map, distinctUntilChanged } from 'rxjs/operators';
+import qs from 'query-string';
 
 import { SortOrder, ICountable } from 'common/types';
 import { apiRequest, IAPIRequest } from 'common/operators/api';
+import { setURLSearch } from 'common/utils/url';
 
 import {
   AssemblyStatus,
@@ -11,19 +13,46 @@ import {
   IProcess
 } from 'processes/types/Process';
 
+interface IParams {
+  assemblyStatus: AssemblyStatus;
+  reviewStatus: ReviewStatus;
+  searchTerm: string;
+  sortOrder: SortOrder;
+}
+
+const getURLSearchParams = (): IParams => qs.parse(window.location.search);
+
 export const useProcesses = () => {
+  const {
+    assemblyStatus: assemblyStatusSearch,
+    reviewStatus: reviewStatusSearch,
+    searchTerm: searchTermSearch,
+    sortOrder: sortOrderSearch
+  } = getURLSearchParams();
   const [processes, changeProcesses] = useState([] as IProcess[]);
   const [count, changeCount] = useState(0);
-  const [assemblyStatus, changeAssemblyStatus] = useState(AssemblyStatus.ANY);
-  const [reviewStatus, changeReviewStatus] = useState(ReviewStatus.ANY);
-  const [searchTerm, changeSearchTerm] = useState('');
-  const [sortOrder, changeSortOrder] = useState(SortOrder.ASC);
+  const [assemblyStatus, changeAssemblyStatus] = useState(
+    assemblyStatusSearch || AssemblyStatus.ANY
+  );
+  const [reviewStatus, changeReviewStatus] = useState(
+    reviewStatusSearch || ReviewStatus.ANY
+  );
+  const [searchTerm, changeSearchTerm] = useState(searchTermSearch || '');
+  const [sortOrder, changeSortOrder] = useState(
+    sortOrderSearch || SortOrder.ASC
+  );
   const [page, changePage] = useState(-1);
 
-  const [assemblyStatus$] = useState(new BehaviorSubject(AssemblyStatus.ANY));
-  const [reviewStatus$] = useState(new BehaviorSubject(ReviewStatus.ANY));
-  const [searchTerm$] = useState(new BehaviorSubject(''));
-  const [sortOrder$] = useState(new BehaviorSubject(SortOrder.ASC));
+  const [assemblyStatus$] = useState(
+    new BehaviorSubject(assemblyStatusSearch || AssemblyStatus.ANY)
+  );
+  const [reviewStatus$] = useState(
+    new BehaviorSubject(reviewStatusSearch || ReviewStatus.ANY)
+  );
+  const [searchTerm$] = useState(new BehaviorSubject(searchTermSearch || ''));
+  const [sortOrder$] = useState(
+    new BehaviorSubject(sortOrderSearch || SortOrder.ASC)
+  );
   const [deleteProcess$] = useState(new Subject<IProcess['id']>());
   const [changeTitle$] = useState(
     new Subject<[IProcess['id'], IProcess['title']]>()
@@ -43,32 +72,78 @@ export const useProcesses = () => {
   );
 
   useEffect(() => {
-    return assemblyStatus$.subscribe(assemblyStatus => {
+    const subscription = processesParams$.subscribe(
+      ([assemblyStatus, reviewStatus, searchTerm, sortOrder]) => {
+        setURLSearch({
+          assemblyStatus,
+          reviewStatus,
+          searchTerm,
+          sortOrder
+        });
+      }
+    );
+
+    return () => subscription.unsubscribe();
+  }, [processesParams$]);
+
+  const updateStateFromURL = useCallback(() => {
+    const serializableParams: { [key: string]: BehaviorSubject<any> } = {
+      assemblyStatus: assemblyStatus$,
+      reviewStatus: reviewStatus$,
+      searchTerm: searchTerm$,
+      sortOrder: sortOrder$
+    };
+
+    const props = qs.parse(window.location.search);
+
+    Object.keys(serializableParams).map(key => {
+      if (props[key]) {
+        serializableParams[key].next(props[key]);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('popstate', updateStateFromURL);
+
+    return () => window.removeEventListener('popstate', updateStateFromURL);
+  });
+
+  useEffect(() => {
+    const s = assemblyStatus$.subscribe(assemblyStatus => {
       changeAssemblyStatus(assemblyStatus);
       changePage(0);
-    }).unsubscribe;
+    });
+
+    return () => s.unsubscribe();
   }, [assemblyStatus$, changeAssemblyStatus]);
 
   useEffect(() => {
-    return reviewStatus$.subscribe(reviewStatus => {
+    const s = reviewStatus$.subscribe(reviewStatus => {
       changeReviewStatus(reviewStatus);
       changePage(0);
-    }).unsubscribe;
-  }, [reviewStatus$, changeReviewStatus]);
+    });
+
+    return () => s.unsubscribe();
+  }, [reviewStatus$, changeReviewStatus, page]);
 
   useEffect(() => {
-    return searchTerm$.subscribe(searchTerm => {
+    const s = searchTerm$.subscribe(searchTerm => {
       changeSearchTerm(searchTerm);
       changePage(0);
-    }).unsubscribe;
-  }, [searchTerm$, changeSearchTerm]);
+    });
+
+    return () => s.unsubscribe();
+  }, [searchTerm$, changeSearchTerm, page]);
 
   useEffect(() => {
-    return sortOrder$.subscribe(sortOrder => {
+    const s = sortOrder$.subscribe(sortOrder => {
       changeSortOrder(sortOrder);
       changePage(0);
-    }).unsubscribe;
-  }, [sortOrder$, changeSortOrder]);
+    });
+
+    return () => s.unsubscribe();
+  }, [sortOrder$, changeSortOrder, page]);
 
   useEffect(() => {
     const processes$ = processesParams$.pipe(
