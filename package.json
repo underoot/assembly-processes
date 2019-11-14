@@ -20,6 +20,7 @@
     "build": "react-scripts build",
     "storybook": "start-storybook",
     "test": "react-scripts test",
+    "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache",
     "eject": "react-scripts eject",
     "lint": "npm-run-all lint:*",
     "lint:ts": "eslint --ext js,ts,tsx src",

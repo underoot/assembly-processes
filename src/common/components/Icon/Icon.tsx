@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import * as icons from 'common/components/Icon/assets';
 import { IIconProps } from 'common/components/Icon/types';
 
-const StyledIcon = styled.i<IIconProps>`
+export const StyledIcon = styled.i<IIconProps>`
   display: inline-block;
   background-image: url(${props => icons[props.type]});
   width: 24px;

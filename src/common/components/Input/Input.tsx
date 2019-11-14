@@ -10,7 +10,7 @@ const StyledInput = styled.div`
 
 const StyledIcon = styled.span`
   position: absolute;
-  margin-top: 6px;
+  margin-top: 4px;
   left: var(--space-size-extra-small);
 `;
 
