@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Global, css } from '@emotion/core';
 
 import { reset } from 'common/components/Styles/reset';
