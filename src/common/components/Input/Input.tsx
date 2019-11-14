@@ -28,7 +28,7 @@ const StyledInputControl = styled.input<IInputProps>`
   outline: none;
 
   &:focus {
-    border: 1px solid var(--color-view);
+    border: 1px solid var(--color-focus);
   }
 `;
 

@@ -39,7 +39,7 @@ export const Page = () => {
         processes={processes}
         onDelete={deleteProcess}
         onChangeTitle={changeTitle}
-        onScrollToEnd={incrementPage}
+        onIncrementPage={incrementPage}
         header={
           <ListPanel
             count={count}

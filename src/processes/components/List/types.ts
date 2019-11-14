@@ -7,5 +7,5 @@ export interface IListProps {
   processes: IProcess[];
   onDelete: (id: IProcess['id']) => void;
   onChangeTitle: (id: IProcess['id'], title: string) => void;
-  onScrollToEnd: () => void;
+  onIncrementPage: () => void;
 }

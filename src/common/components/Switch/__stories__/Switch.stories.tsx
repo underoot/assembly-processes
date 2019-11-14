@@ -8,6 +8,12 @@ enum SortOrder {
   OLD
 }
 
+enum Triple {
+  ONE,
+  TWO,
+  THREE
+}
+
 const SwitchGeneral = () => {
   const [value, onChangeValue] = useState(SortOrder.LATEST);
 
@@ -19,4 +25,18 @@ const SwitchGeneral = () => {
   );
 };
 
-storiesOf('Switch', module).add('General', () => <SwitchGeneral />);
+const SwitchTriple = () => {
+  const [value, onChangeValue] = useState(Triple.ONE);
+
+  return (
+    <Switch value={value} onChange={onChangeValue}>
+      <Switch.Item value={Triple.ONE}>Vez</Switch.Item>
+      <Switch.Item value={Triple.TWO}>Dos</Switch.Item>
+      <Switch.Item value={Triple.THREE}>Tres</Switch.Item>
+    </Switch>
+  );
+};
+
+storiesOf('Switch', module)
+  .add('General', () => <SwitchGeneral />)
+  .add('Triple', () => <SwitchTriple />);

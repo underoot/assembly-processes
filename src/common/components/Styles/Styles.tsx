@@ -12,7 +12,7 @@ const system = css`
     --color-background-control: #e1e5e6;
     --color-heading: #878b8d;
     --color-border: rgba(0, 0, 0, 0.15);
-    --color-view: #2b7cee;
+    --color-focus: #2b7cee;
     --color-action: #ffc800;
     --color-darkness: #7f8487;
     --color-primary: #98989d;

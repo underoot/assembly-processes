@@ -1504,15 +1504,6 @@
       "updated": "2017-01-14T04:23:13 -03:00"
     },
     {
-      "id": "5d4193afabe24447265123e2",
-      "img": "http://placehold.it/160x100",
-      "age": 26,
-      "assemblyStatus": "REVIEW_FINISHED",
-      "reviewStatus": "DRAFT",
-      "title": "22: SULFAX v2",
-      "updated": "2019-04-16T12:44:17 -03:00"
-    },
-    {
       "id": "5d4193afcdc90fac620a2a93",
       "img": "http://placehold.it/160x100",
       "age": 38,
@@ -2017,15 +2008,6 @@
       "updated": "2016-03-28T09:47:31 -03:00"
     },
     {
-      "id": "5d4193af6c8ac614d225b710",
-      "img": "http://placehold.it/160x100",
-      "age": 22,
-      "assemblyStatus": "IN_REVIEW",
-      "reviewStatus": "DRAFT",
-      "title": "8: PYRAMIA v6",
-      "updated": "2014-04-08T03:57:43 -04:00"
-    },
-    {
       "id": "5d4193af8350e65384d39d8b",
       "img": "http://placehold.it/160x100",
       "age": 33,
@@ -2377,15 +2359,6 @@
       "updated": "2017-04-18T09:03:02 -03:00"
     },
     {
-      "id": "5d4193af3ad2f5a7926d195e",
-      "img": "http://placehold.it/160x100",
-      "age": 24,
-      "assemblyStatus": "IN_REVIEW",
-      "reviewStatus": "DRAFT",
-      "title": "8: AMTAP v8",
-      "updated": "2018-12-08T01:52:47 -03:00"
-    },
-    {
       "id": "5d4193afa30dbc6bfc92eef0",
       "img": "http://placehold.it/160x100",
       "age": 24,
@@ -2420,15 +2393,6 @@
       "reviewStatus": "DRAFT",
       "title": "5: SYNKGEN v5",
       "updated": "2016-07-27T02:09:20 -03:00"
-    },
-    {
-      "id": "5d4193affd4529188800737a",
-      "img": "http://placehold.it/160x100",
-      "age": 28,
-      "assemblyStatus": "REVIEW_FINISHED",
-      "reviewStatus": "DRAFT",
-      "title": "2: COMTRACT v7",
-      "updated": "2014-03-17T09:15:58 -04:00"
     },
     {
       "id": "5d4193afdef250758ef43635",
@@ -2598,7 +2562,7 @@
       "age": 32,
       "assemblyStatus": "IN_REVIEW",
       "reviewStatus": "SIMULATION_REQUESTED",
-      "title": "3: BLUPLANET v4",
+      "title": "3: BLUPLANET v",
       "updated": "2018-12-05T03:22:16 -03:00"
     },
     {
@@ -2773,15 +2737,6 @@
       "updated": "2016-02-03T09:57:20 -03:00"
     },
     {
-      "id": "5d4193af3f19b1a318c018d0",
-      "img": "http://placehold.it/160x100",
-      "age": 39,
-      "assemblyStatus": "REVIEW_FINISHED",
-      "reviewStatus": "SIMULATION_POSITIVE",
-      "title": "7: GOLISTIC v3",
-      "updated": "2019-04-26T04:55:50 -03:00"
-    },
-    {
       "id": "5d4193af214b644bb27589c3",
       "img": "http://placehold.it/160x100",
       "age": 37,
@@ -2913,7 +2868,7 @@
       "age": 31,
       "assemblyStatus": "REVIEW_FINISHED",
       "reviewStatus": "DRAFT",
-      "title": "22: UNDEROOT v74",
+      "title": "22: NOTUT v7",
       "updated": "2015-11-15T08:55:23 -03:00"
     },
     {
@@ -3752,15 +3707,6 @@
       "reviewStatus": "SIMULATION_REQUESTED",
       "title": "17: SLUMBERIA v9",
       "updated": "2016-04-25T02:53:11 -03:00"
-    },
-    {
-      "id": "5d4193afa849e4a69d9968ac",
-      "img": "http://placehold.it/160x100",
-      "age": 20,
-      "assemblyStatus": "IN_REVIEW",
-      "reviewStatus": "DRAFT",
-      "title": "22: JETSILK v83",
-      "updated": "2019-04-05T05:54:31 -03:00"
     },
     {
       "id": "5d4193af21afc37c55ff71f4",

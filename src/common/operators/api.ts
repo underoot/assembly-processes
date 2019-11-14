@@ -12,7 +12,7 @@ export const apiRequest = <T>() => (observable: Observable<IAPIRequest>) =>
   new Observable<T>(observer => {
     const subscription = observable.subscribe({
       async next(request) {
-        const { method, query = {}, body, merge = {} } = request;
+        const { method, query = {}, body } = request;
         const searchParams = query ? `?${new URLSearchParams(query)}` : '';
         const requestBody = body ? JSON.stringify(body) : void 0;
 
@@ -25,7 +25,7 @@ export const apiRequest = <T>() => (observable: Observable<IAPIRequest>) =>
             }
           });
 
-          observer.next({ ...((await result.json()) as T), ...merge });
+          observer.next((await result.json()) as T);
         } catch (err) {
           observer.error(err);
         }

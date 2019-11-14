@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
-import { debounceTime, map, distinctUntilChanged, scan } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Subject, of } from 'rxjs';
+import { debounceTime, map, distinctUntilChanged } from 'rxjs/operators';
 
 import { SortOrder, ICountable } from 'common/types';
 import { apiRequest, IAPIRequest } from 'common/operators/api';
@@ -24,10 +24,22 @@ export const useProcesses = () => {
   const [reviewStatus$] = useState(new BehaviorSubject(ReviewStatus.ANY));
   const [searchTerm$] = useState(new BehaviorSubject(''));
   const [sortOrder$] = useState(new BehaviorSubject(SortOrder.ASC));
-  const [page$] = useState(new Subject<number>());
   const [deleteProcess$] = useState(new Subject<IProcess['id']>());
   const [changeTitle$] = useState(
     new Subject<[IProcess['id'], IProcess['title']]>()
+  );
+
+  const [delayedSearchTerm$] = useState(
+    searchTerm$.pipe(debounceTime(200), distinctUntilChanged())
+  );
+
+  const [processesParams$] = useState(
+    combineLatest(
+      assemblyStatus$,
+      reviewStatus$,
+      delayedSearchTerm$,
+      sortOrder$
+    )
   );
 
   useEffect(() => {
@@ -59,24 +71,9 @@ export const useProcesses = () => {
   }, [sortOrder$, changeSortOrder]);
 
   useEffect(() => {
-    page$.next(page);
-  }, [page$, page]);
-
-  useEffect(() => {
-    const delayedSearchTerm$ = searchTerm$.pipe(
-      debounceTime(200),
-      distinctUntilChanged()
-    );
-
-    const processes$ = combineLatest(
-      assemblyStatus$,
-      reviewStatus$,
-      delayedSearchTerm$,
-      sortOrder$,
-      page$
-    ).pipe(
+    const processes$ = processesParams$.pipe(
       map(
-        ([assemblyStatus, reviewStatus, q, _order, _page]): IAPIRequest => ({
+        ([assemblyStatus, reviewStatus, q, _order]): IAPIRequest => ({
           method: 'GET',
           pathname: '/api/processes',
           query: {
@@ -84,43 +81,48 @@ export const useProcesses = () => {
             reviewStatus,
             q,
             _order,
-            _page: _page.toString()
-          },
-          merge: {
-            page: _page
+            _page: page.toString()
           }
         })
       ),
       apiRequest<ICountable<IProcess>>()
     );
 
-    const subItems = processes$
+    const itemsSubscription = processes$
       .pipe(
-        scan((acc, { items, page }) => {
-          if (page === 0) {
-            return items;
+        map(p => p.items),
+        map(newProcesses => {
+          if (page === -1) {
+            return [];
           }
 
-          return [...acc, ...items];
-        }, [] as IProcess[])
+          if (page === 0) {
+            return newProcesses;
+          }
+
+          if (
+            processes.length &&
+            newProcesses.length &&
+            newProcesses[newProcesses.length - 1].id ===
+              processes[processes.length - 1].id
+          ) {
+            return processes;
+          }
+
+          return [...processes, ...newProcesses];
+        })
       )
       .subscribe(changeProcesses);
 
-    const subCount = processes$.pipe(map(v => v.count)).subscribe(changeCount);
+    const countSubscription = processes$
+      .pipe(map(r => r.count))
+      .subscribe(changeCount);
 
     return () => {
-      subItems.unsubscribe();
-      subCount.unsubscribe();
+      itemsSubscription.unsubscribe();
+      countSubscription.unsubscribe();
     };
-  }, [
-    assemblyStatus$,
-    reviewStatus$,
-    searchTerm$,
-    sortOrder$,
-    page$,
-    changeProcesses,
-    changeCount
-  ]);
+  }, [page, processes.length ? processes[processes.length - 1].id : undefined]);
 
   useEffect(() => {
     const sub = deleteProcess$
@@ -134,7 +136,7 @@ export const useProcesses = () => {
         apiRequest()
       )
       .subscribe(() => {
-        changePage(0);
+        changePage(-1);
       });
 
     return () => sub.unsubscribe();
@@ -167,11 +169,11 @@ export const useProcesses = () => {
     count,
     processes,
     page,
+
     changeAssemblyStatus: assemblyStatus$.next.bind(assemblyStatus$),
     changeReviewStatus: reviewStatus$.next.bind(reviewStatus$),
     changeSearchTerm: searchTerm$.next.bind(searchTerm$),
     changeSortOrder: sortOrder$.next.bind(sortOrder$),
-    changePage,
     incrementPage: () => changePage(page => page + 1),
     clearSearchTerm: () => searchTerm$.next(''),
     deleteProcess: deleteProcess$.next.bind(deleteProcess$),

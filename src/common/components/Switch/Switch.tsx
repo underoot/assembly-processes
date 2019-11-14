@@ -4,32 +4,30 @@ import styled from '@emotion/styled';
 import { ISwitchProps, ISwitchItemProps } from 'common/components/Switch/types';
 
 const StyledSwitch = styled.div`
-  display: flex;
-  margin-left: 12px;
-  margin-right: 12px;
+  margin-left: 16px;
+  margin-right: 16px;
 `;
 
-const StyledControl = styled.input`
-  width: 0px;
-  height: 0px;
-  position: absolute;
-  left: -999px;
-`;
-
-const StyledBox = styled.label<ISwitchItemProps>`
+const StyledItem = styled.label<ISwitchItemProps>`
   cursor: pointer;
+
   display: inline-block;
-  background-color: var(--color-background-control);
+  position: relative;
+
+  padding: 4px 36px;
+
+  border: 1px solid rgba(255, 255, 255, 0);
   border-radius: 21px;
+
+  margin-left: -16px;
+  margin-right: -16px;
+
+  background-color: var(--color-background-control);
   font: var(--paragraph-size-medium);
   color: var(--color-primary);
-  padding: 4px var(--space-size-large);
-  margin-left: -12px;
-  margin-right: -12px;
-  border: 1px solid rgba(255, 255, 255, 0);
 
   input:focus + & {
-    border: 1px solid var(--color-view);
+    border: 1px solid var(--color-focus);
   }
 
   input:checked + & {
@@ -39,6 +37,13 @@ const StyledBox = styled.label<ISwitchItemProps>`
     box-shadow: 0px 2px 4px rgba(55, 88, 123, 0.16),
       0px 2px 4px rgba(0, 0, 0, 0.06);
   }
+`;
+
+export const StyledControl = styled.input`
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  left: -999px;
 `;
 
 export const Switch = <T extends {}>({
@@ -67,4 +72,4 @@ export const Switch = <T extends {}>({
   );
 };
 
-Switch.Item = StyledBox;
+Switch.Item = StyledItem;

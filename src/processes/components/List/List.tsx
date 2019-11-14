@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styled from '@emotion/styled';
 
 import { useIntersection } from 'common/hooks/intersection';
@@ -30,10 +30,10 @@ export const ProcessesList = ({
   header,
   processes = [],
   onDelete,
-  onScrollToEnd,
-  onChangeTitle
+  onChangeTitle,
+  onIncrementPage
 }: IListProps) => {
-  const marker = useIntersection(onScrollToEnd);
+  const ref = useIntersection(onIncrementPage);
 
   return (
     <StyledList>
@@ -47,7 +47,7 @@ export const ProcessesList = ({
             onChangeTitle={onChangeTitle}
           />
         ))}
-        {marker}
+        <span ref={ref} />
       </StyledListWrapper>
     </StyledList>
   );

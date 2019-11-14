@@ -26,7 +26,7 @@ const StyledButton = styled.button`
     var(--space-size-extra-small) var(--space-size-extra-small);
   font: var(--paragraph-size-medium);
   color: var(--color-default);
-  background-color: var(--color-view);
+  background-color: var(--color-focus);
 `;
 
 const StyledButtonIcon = styled.span`
