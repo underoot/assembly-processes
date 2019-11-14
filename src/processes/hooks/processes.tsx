@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { BehaviorSubject, combineLatest, Subject, of } from 'rxjs';
+import { useState, useEffect, useCallback } from 'react';
+import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { debounceTime, map, distinctUntilChanged } from 'rxjs/operators';
 
 import { SortOrder, ICountable } from 'common/types';
@@ -122,7 +122,13 @@ export const useProcesses = () => {
       itemsSubscription.unsubscribe();
       countSubscription.unsubscribe();
     };
-  }, [page, processes.length ? processes[processes.length - 1].id : undefined]);
+    // eslint-disable-next-line
+  }, [
+    processesParams$,
+    page,
+    // eslint-disable-next-line
+    processes.length ? processes[processes.length - 1].id : undefined
+  ]);
 
   useEffect(() => {
     const sub = deleteProcess$
@@ -174,7 +180,7 @@ export const useProcesses = () => {
     changeReviewStatus: reviewStatus$.next.bind(reviewStatus$),
     changeSearchTerm: searchTerm$.next.bind(searchTerm$),
     changeSortOrder: sortOrder$.next.bind(sortOrder$),
-    incrementPage: () => changePage(page => page + 1),
+    incrementPage: useCallback(() => changePage(page => page + 1), []),
     clearSearchTerm: () => searchTerm$.next(''),
     deleteProcess: deleteProcess$.next.bind(deleteProcess$),
     changeTitle: (id: IProcess['id'], title: IProcess['title']) =>

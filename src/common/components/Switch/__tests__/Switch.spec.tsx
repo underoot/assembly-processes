@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { shallow } from 'enzyme';
 
-import { Switch, StyledControl } from 'common/components/Switch';
+import { Switch } from 'common/components/Switch';
 
 it('renders without crashing', () => {
   shallow(

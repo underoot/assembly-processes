@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 
 import { useIntersection } from 'common/hooks/intersection';
