@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from '@emotion/styled';
 
 import { AssemblyStatus, ReviewStatus } from 'processes/types/Process';
@@ -8,12 +8,14 @@ import {
 } from 'processes/texts';
 import {
   IFilterProps,
-  IFilterItemProps
+  IFilterItemProps,
+  IFilterPaneProps
 } from 'processes/components/Filter/types';
 
-const StyledPane = styled.div`
+const StyledPane = styled.div<IFilterPaneProps>`
   position: sticky;
   grid-column: 1 / 4;
+
   align-self: flex-start;
   top: 0px;
 
@@ -25,12 +27,30 @@ const StyledPane = styled.div`
   border: 1px solid var(--color-border);
   border-radius: 4px;
   box-sizing: border-box;
+
+  transition: height 0.5s;
+
+  ${({ hide }) => hide && 'height: 72px; overflow: hidden;'}
+
+  @media (max-width: 1024px) {
+    grid-row: 1;
+    grid-column: 1 / 12;
+  }
+
+  @media (max-width: 768px) {
+    grid-column: 1;
+  }
 `;
 
 const StyledTitle = styled.h2`
+  cursor: pointer;
   font: var(--heading-size-small);
   font-weight: 600;
-  margin-bottom: var(--space-size-small);
+  margin-bottom: var(--space-size-medium);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 const StyledSubTitle = styled.h3`
@@ -83,9 +103,13 @@ export const Filter = ({
   onChangeAssemblyStatus,
   onChangeReviewStatus
 }: IFilterProps) => {
+  const [hidden, changeHidden] = useState(false);
+
+  const toggleHidden = useCallback(() => changeHidden(hidden => !hidden), []);
+
   return (
-    <StyledPane>
-      <StyledTitle>Filter</StyledTitle>
+    <StyledPane hide={hidden}>
+      <StyledTitle onClick={toggleHidden}>Filter</StyledTitle>
 
       <StyledSubTitle>Assembly</StyledSubTitle>
       <StyledFilterList>

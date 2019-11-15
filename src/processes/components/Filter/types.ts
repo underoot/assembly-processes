@@ -10,3 +10,7 @@ export interface IFilterProps {
   onChangeAssemblyStatus: (status: AssemblyStatus) => void;
   onChangeReviewStatus: (status: ReviewStatus) => void;
 }
+
+export interface IFilterPaneProps {
+  hide: boolean;
+}

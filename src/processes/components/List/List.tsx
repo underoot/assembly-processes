@@ -1,16 +1,36 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
-
-import { useIntersection } from 'common/hooks/intersection';
+import { fromEvent } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 import { IListProps } from 'processes/components/List/types';
 import { Card } from 'processes/components/Card';
 
+const StyledListContent = styled.div`
+  overflow: hidden;
+  grid-column: 4 / 13;
+
+  @media (max-width: 1024px) {
+    grid-row: 2;
+    grid-column: 1 / 12;
+  }
+
+  @media (max-width: 768px) {
+    grid-column: 1;
+  }
+`;
+
 const StyledList = styled.main`
   display: flex;
+  height: 100%;
+  box-sizing: border-box;
   margin-top: var(--space-size-medium);
   flex-direction: column;
-  grid-column: 4 / 13;
+  padding: 10px;
+  padding-top: 0px;
+  margin-right: -50px;
+  padding-right: 50px;
+  overflow-y: scroll;
 `;
 
 const StyledHeader = styled.div`
@@ -33,22 +53,53 @@ export const ProcessesList = ({
   onChangeTitle,
   onIncrementPage
 }: IListProps) => {
-  const ref = useIntersection(onIncrementPage);
+  const ref = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (!ref.current) {
+      return;
+    }
+
+    const onScroll = (e: Event) => {
+      if (!e.target) {
+        return;
+      }
+
+      const curr = e.target as HTMLElement;
+
+      if (curr.scrollHeight <= curr.clientHeight) {
+        return;
+      }
+
+      if (curr.scrollTop + 400 >= curr.clientHeight) {
+        onIncrementPage();
+      }
+    };
+
+    const subscription = fromEvent(ref.current, 'scroll')
+      .pipe(debounceTime(200))
+      .subscribe(onScroll);
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [ref, onIncrementPage]);
 
   return (
-    <StyledList>
-      <StyledHeader>{header}</StyledHeader>
-      <StyledListWrapper>
-        {processes.map(process => (
-          <Card
-            key={process.id}
-            process={process}
-            onDelete={onDelete}
-            onChangeTitle={onChangeTitle}
-          />
-        ))}
-        <span ref={ref} />
-      </StyledListWrapper>
-    </StyledList>
+    <StyledListContent>
+      <StyledList ref={ref}>
+        <StyledHeader>{header}</StyledHeader>
+        <StyledListWrapper>
+          {processes.map(process => (
+            <Card
+              key={process.id}
+              process={process}
+              onDelete={onDelete}
+              onChangeTitle={onChangeTitle}
+            />
+          ))}
+        </StyledListWrapper>
+      </StyledList>
+    </StyledListContent>
   );
 };

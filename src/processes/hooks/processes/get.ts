@@ -25,11 +25,6 @@ export const useGetProcesses = (
     : undefined;
 
   useEffect(() => {
-    if (page === -1) {
-      changeProcesses([]);
-      return;
-    }
-
     const processes$ = processesParams$.pipe(
       map(
         ([assemblyStatus, reviewStatus, q, _order]): IAPIRequest => ({
@@ -47,9 +42,12 @@ export const useGetProcesses = (
       apiRequest<ICountable<IProcess>>()
     );
 
-    const itemsSubscription = processes$
+    const subscription = processes$
       .pipe(
-        map(p => p.items),
+        map(p => {
+          changeCount(p.count);
+          return p.items;
+        }),
         map(newProcesses => {
           if (page === 0) {
             return newProcesses;
@@ -69,13 +67,8 @@ export const useGetProcesses = (
       )
       .subscribe(changeProcesses);
 
-    const countSubscription = processes$
-      .pipe(map(r => r.count))
-      .subscribe(changeCount);
-
     return () => {
-      itemsSubscription.unsubscribe();
-      countSubscription.unsubscribe();
+      subscription.unsubscribe();
     };
     // eslint-disable-next-line
   }, [

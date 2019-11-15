@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { combineLatest } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
@@ -29,8 +29,8 @@ export const useProcesses = () => {
   const [processes, changeProcesses] = useState([] as IProcess[]);
   const [count, changeCount] = useState(0);
 
-  const [page, changePage] = useState(-1);
-  const resetToInitialPage = useCallback(() => changePage(-1), []);
+  const [page, changePage] = useState(0);
+  const resetToInitialPage = useCallback(() => changePage(0), []);
   const incrementPage = useCallback(() => changePage(page => page + 1), []);
 
   const [assemblyStatus, assemblyStatus$, changeAssemblyStatus] = useSubject(
@@ -53,7 +53,9 @@ export const useProcesses = () => {
     resetToInitialPage
   );
 
-  const [deleteProcess] = useDeleteProcess(resetToInitialPage);
+  const reloadSubscription = useCallback(() => changePage(-1), []);
+
+  const [deleteProcess] = useDeleteProcess(reloadSubscription);
   const [changeTitle] = useUpdateProcess();
 
   const [delayedSearchTerm$] = useState(
@@ -68,6 +70,12 @@ export const useProcesses = () => {
       sortOrder$
     )
   );
+
+  useEffect(() => {
+    if (page === -1) {
+      changePage(0);
+    }
+  }, [page, changePage]);
 
   useSerializableProceses(
     assemblyStatus$,

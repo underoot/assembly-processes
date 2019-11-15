@@ -7,7 +7,7 @@ import { apiRequest, IAPIRequest } from 'common/operators/api';
 import { IProcess } from 'processes/types/Process';
 
 export const useDeleteProcess = (
-  onDeleteProcess: () => void
+  changePage: () => void
 ): [(id: IProcess['id']) => void] => {
   const [deleteProcess$] = useState(new Subject<IProcess['id']>());
   const [deleteProcessRequest$] = useState(
@@ -23,10 +23,7 @@ export const useDeleteProcess = (
   );
 
   useEffect(() => {
-    const subscription = deleteProcessRequest$.subscribe(() => {
-      onDeleteProcess();
-    });
-
+    const subscription = deleteProcessRequest$.subscribe(changePage);
     return () => subscription.unsubscribe();
   });
 

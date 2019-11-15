@@ -16,6 +16,13 @@ const StyledPanel = styled.div`
 const StyledTitle = styled.h2`
   font: var(--heading-size-medium);
   font-weight: 600;
+  margin-right: var(--space-size-small);
+`;
+
+const StyledTitleText = styled.span`
+  @media (max-width: 1366px) {
+    display: none;
+  }
 `;
 
 const StyledTicker = styled.span`
@@ -27,6 +34,10 @@ const StyledTicker = styled.span`
   margin-left: var(--space-size-extra-small);
   border-radius: 14px;
   background-color: var(--color-darkness);
+
+  @media (max-width: 414px) {
+    display: none;
+  }
 `;
 
 const StyledControls = styled.div`
@@ -35,17 +46,24 @@ const StyledControls = styled.div`
 `;
 
 const StyledSwitch = styled.div`
+  min-width: 235px;
   margin-right: var(--space-size-small);
 `;
 
 const StyledInput = styled.div`
-  width: 300px;
+  @media (min-width: 1440px) {
+    width: 300px;
+  }
 `;
 
 const StyledLabel = styled.span`
   font: var(--paragraph-size-medium);
   color: var(--color-primary);
   margin-right: var(--space-size-small);
+
+  @media (max-width: 1440px) {
+    display: none;
+  }
 `;
 
 export const ListPanel = ({
@@ -58,7 +76,7 @@ export const ListPanel = ({
 }: IListPanelProps) => (
   <StyledPanel>
     <StyledTitle>
-      Assembly Process
+      <StyledTitleText>Assembly Process</StyledTitleText>
       {Boolean(count) && <StyledTicker>{count}</StyledTicker>}
     </StyledTitle>
     <StyledControls>
