@@ -24,6 +24,7 @@ export const apiRequest = <T>() => (observable: Observable<IAPIRequest>) =>
             {
               method,
               body: requestBody,
+              mode: 'cors',
               headers: {
                 'Content-Type': 'application/json'
               }
