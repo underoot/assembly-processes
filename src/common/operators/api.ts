@@ -1,5 +1,7 @@
 import { Observable } from 'rxjs';
 
+import { config } from 'config';
+
 export interface IAPIRequest {
   method: 'GET' | 'POST' | 'PATCH' | 'DELETE';
   pathname: string;
@@ -17,13 +19,16 @@ export const apiRequest = <T>() => (observable: Observable<IAPIRequest>) =>
         const requestBody = body ? JSON.stringify(body) : void 0;
 
         try {
-          const result = await fetch(`${request.pathname}${searchParams}`, {
-            method,
-            body: requestBody,
-            headers: {
-              'Content-Type': 'application/json'
+          const result = await fetch(
+            `${config.apiBaseURL}${request.pathname}${searchParams}`,
+            {
+              method,
+              body: requestBody,
+              headers: {
+                'Content-Type': 'application/json'
+              }
             }
-          });
+          );
 
           observer.next((await result.json()) as T);
         } catch (err) {
