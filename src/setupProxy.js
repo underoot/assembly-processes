@@ -59,4 +59,6 @@ module.exports = app => {
       });
     })
     .use('/api', middlewares, router);
+
+  return app;
 };
