@@ -1,49 +1,46 @@
 import { useEffect } from 'react';
-import { Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { ICountable, SortOrder } from 'common/types';
-
-import {
-  AssemblyStatus,
-  ReviewStatus,
-  IProcess
-} from 'processes/types/Process';
+import { ICountable } from 'common/types';
 import { apiRequest, IAPIRequest } from 'common/operators/api';
 
-export const useGetProcesses = (
-  processesParams$: Observable<
-    [AssemblyStatus, ReviewStatus, string, SortOrder]
-  >,
-  page: number,
-  processes: IProcess[],
-  changeProcesses: (processes: IProcess[]) => void,
-  changeCount: (count: number) => void
-) => {
+import { IProcess } from 'processes/types/Process';
+import { IGetProcessesParams } from 'processes/hooks/processes/types';
+
+export const useGetProcesses = ({
+  assemblyStatus,
+  reviewStatus,
+  searchTerm,
+  sortOrder,
+  page,
+  processes,
+  changeProcesses,
+  changeCount,
+  changePage
+}: IGetProcessesParams) => {
   const processesSerialized = processes.length
     ? processes[processes.length - 1].id
     : undefined;
 
   useEffect(() => {
-    const processes$ = processesParams$.pipe(
-      map(
-        ([assemblyStatus, reviewStatus, q, _order]): IAPIRequest => ({
-          method: 'GET',
-          pathname: '/api/processes',
-          query: {
-            assemblyStatus,
-            reviewStatus,
-            q,
-            _order,
-            _page: page.toString()
-          }
-        })
-      ),
-      apiRequest<ICountable<IProcess>>()
-    );
+    changePage(0);
+  }, [assemblyStatus, reviewStatus, searchTerm, sortOrder, changePage]);
 
-    const subscription = processes$
+  useEffect(() => {
+    const subscription = new BehaviorSubject<IAPIRequest>({
+      method: 'GET',
+      pathname: '/api/processes',
+      query: {
+        assemblyStatus,
+        reviewStatus,
+        q: searchTerm,
+        _order: sortOrder,
+        _page: page.toString()
+      }
+    })
       .pipe(
+        apiRequest<ICountable<IProcess>>(),
         map(p => {
           changeCount(p.count);
           return p.items;
@@ -72,9 +69,12 @@ export const useGetProcesses = (
     };
     // eslint-disable-next-line
   }, [
+    assemblyStatus,
+    reviewStatus,
+    searchTerm,
+    sortOrder,
     changeCount,
     changeProcesses,
-    processesParams$,
     page,
     processesSerialized
   ]);

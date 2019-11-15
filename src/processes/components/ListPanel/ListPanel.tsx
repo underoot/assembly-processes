@@ -3,10 +3,10 @@ import styled from '@emotion/styled';
 
 import { Switch } from 'common/components/Switch';
 import { Input } from 'common/components/Input';
-
-import { IListPanelProps } from 'processes/components/ListPanel/types';
 import { SortOrder } from 'common/types';
 import { Icon } from 'common/components/Icon';
+
+import { IListPanelProps } from 'processes/components/ListPanel/types';
 
 const StyledPanel = styled.div`
   display: flex;
@@ -73,29 +73,31 @@ export const ListPanel = ({
   search,
   onChangeSearch,
   onClearSearch
-}: IListPanelProps) => (
-  <StyledPanel>
-    <StyledTitle>
-      <StyledTitleText>Assembly Process</StyledTitleText>
-      {Boolean(count) && <StyledTicker>{count}</StyledTicker>}
-    </StyledTitle>
-    <StyledControls>
-      <StyledLabel>Show</StyledLabel>
-      <StyledSwitch>
-        <Switch value={order} onChange={onChangeOrder}>
-          <Switch.Item value={SortOrder.ASC}>Latest first</Switch.Item>
-          <Switch.Item value={SortOrder.DESC}>Old first</Switch.Item>
-        </Switch>
-      </StyledSwitch>
-      <StyledInput>
-        <Input
-          onChange={e => onChangeSearch(e.currentTarget.value)}
-          onClear={onClearSearch}
-          icon={<Icon type="search" />}
-          placeholder="Search by assembly name"
-          value={search}
-        />
-      </StyledInput>
-    </StyledControls>
-  </StyledPanel>
-);
+}: IListPanelProps) => {
+  return (
+    <StyledPanel>
+      <StyledTitle>
+        <StyledTitleText>Assembly Process</StyledTitleText>
+        {Boolean(count) && <StyledTicker>{count}</StyledTicker>}
+      </StyledTitle>
+      <StyledControls>
+        <StyledLabel>Show</StyledLabel>
+        <StyledSwitch>
+          <Switch value={order} onChange={onChangeOrder}>
+            <Switch.Item value={SortOrder.ASC}>Latest first</Switch.Item>
+            <Switch.Item value={SortOrder.DESC}>Old first</Switch.Item>
+          </Switch>
+        </StyledSwitch>
+        <StyledInput>
+          <Input
+            onClear={onClearSearch}
+            onChange={e => onChangeSearch(e.target.value)}
+            icon={<Icon type="search" />}
+            placeholder="Search by assembly name"
+            value={search}
+          />
+        </StyledInput>
+      </StyledControls>
+    </StyledPanel>
+  );
+};

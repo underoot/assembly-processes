@@ -3,9 +3,8 @@ import { storiesOf } from '@storybook/react';
 
 import { Input } from 'common/components/Input';
 import { Icon } from 'common/components/Icon';
-import { IInputProps } from 'common/components/Input/types';
 
-const ControlledInput = (props: IInputProps) => {
+const ControlledInput = (props: any) => {
   const [value, onChange] = useState('');
 
   const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {

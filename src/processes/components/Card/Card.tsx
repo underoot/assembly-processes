@@ -43,6 +43,7 @@ const StyledToolbox = styled.div`
 
 const StyledCard = styled.div`
   display: flex;
+  flex-wrap: wrap;
   position: relative;
   cursor: pointer;
   border-radius: 4px;

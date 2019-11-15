@@ -1,48 +1,44 @@
-import { useEffect, useCallback, useState } from 'react';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { useEffect, useCallback } from 'react';
 import { parse } from 'query-string';
 
-import { SortOrder } from 'common/types';
 import { setURLSearch } from 'common/utils/url';
 
-import { AssemblyStatus, ReviewStatus } from 'processes/types/Process';
-import { SerializableDictionary } from 'processes/hooks/processes/types';
+import { ISerializableParams } from 'processes/hooks/processes/types';
 
 /**
  * Обновление и синхронизация параметров с URL-ом страницы
  */
-export const useSerializableProceses = (
-  assemblyStatus$: BehaviorSubject<AssemblyStatus>,
-  reviewStatus$: BehaviorSubject<ReviewStatus>,
-  searchTerm$: BehaviorSubject<string>,
-  delayedSearchTerm$: Observable<string>,
-  sortOrder$: BehaviorSubject<SortOrder>
-) => {
-  const [processesParams$] = useState(
-    combineLatest(
-      assemblyStatus$,
-      reviewStatus$,
-      delayedSearchTerm$,
-      sortOrder$
-    )
-  );
-
+export const useSerializableProceses = ({
+  assemblyStatus,
+  reviewStatus,
+  searchTerm,
+  sortOrder,
+  changeAssemblyStatus,
+  changeReviewStatus,
+  changeSearchTerm,
+  changeSortOrder
+}: ISerializableParams) => {
   const updateStateFromURL = useCallback(() => {
-    const serializableParams: SerializableDictionary = {
-      assemblyStatus: assemblyStatus$,
-      reviewStatus: reviewStatus$,
-      searchTerm: searchTerm$,
-      sortOrder: sortOrder$
+    const serializableParams: { [key: string]: (param: any) => void } = {
+      assemblyStatus: changeAssemblyStatus,
+      reviewStatus: changeReviewStatus,
+      searchTerm: changeSearchTerm,
+      sortOrder: changeSortOrder
     };
 
     const props = parse(window.location.search);
 
     return Object.keys(serializableParams).forEach(key => {
       if (props[key]) {
-        serializableParams[key].next(props[key]);
+        serializableParams[key](props[key]);
       }
     });
-  }, [assemblyStatus$, reviewStatus$, searchTerm$, sortOrder$]);
+  }, [
+    changeAssemblyStatus,
+    changeReviewStatus,
+    changeSearchTerm,
+    changeSortOrder
+  ]);
 
   useEffect(() => {
     window.addEventListener('popstate', updateStateFromURL);
@@ -51,17 +47,11 @@ export const useSerializableProceses = (
   });
 
   useEffect(() => {
-    const subscription = processesParams$.subscribe(
-      ([assemblyStatus, reviewStatus, searchTerm, sortOrder]) => {
-        setURLSearch({
-          assemblyStatus,
-          reviewStatus,
-          searchTerm,
-          sortOrder
-        });
-      }
-    );
-
-    return () => subscription.unsubscribe();
-  }, [processesParams$]);
+    setURLSearch({
+      assemblyStatus,
+      reviewStatus,
+      searchTerm,
+      sortOrder
+    });
+  }, [assemblyStatus, reviewStatus, searchTerm, sortOrder]);
 };

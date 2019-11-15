@@ -1,8 +1,10 @@
-import { BehaviorSubject } from 'rxjs';
-
 import { SortOrder } from 'common/types';
 
-import { AssemblyStatus, ReviewStatus } from 'processes/types/Process';
+import {
+  AssemblyStatus,
+  ReviewStatus,
+  IProcess
+} from 'processes/types/Process';
 
 export interface ISearchParams {
   assemblyStatus: AssemblyStatus;
@@ -11,6 +13,17 @@ export interface ISearchParams {
   sortOrder: SortOrder;
 }
 
-export type SerializableDictionary = {
-  [key: string]: BehaviorSubject<any>;
-};
+export interface ISerializableParams extends ISearchParams {
+  changeAssemblyStatus: (status: AssemblyStatus) => void;
+  changeReviewStatus: (status: ReviewStatus) => void;
+  changeSearchTerm: (term: string) => void;
+  changeSortOrder: (order: SortOrder) => void;
+}
+
+export interface IGetProcessesParams extends ISearchParams {
+  page: number;
+  processes: IProcess[];
+  changeProcesses: (processes: IProcess[]) => void;
+  changeCount: (count: number) => void;
+  changePage: (page: number) => void;
+}

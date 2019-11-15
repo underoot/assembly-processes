@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import styled from '@emotion/styled';
 
 import { IInputProps } from 'common/components/Input/types';
@@ -39,33 +39,30 @@ const StyledClear = styled.span`
   right: var(--space-size-extra-small);
 `;
 
-export const Input = ({
-  hasClear = true,
-  onClear,
-  icon,
-  ...props
-}: IInputProps) => {
-  const onClickClear = () => {
-    if (!onClear) {
-      return;
-    }
+export const Input = forwardRef<HTMLInputElement, IInputProps>(
+  ({ hasClear = true, onClear, icon, ...props }: IInputProps, ref) => {
+    const onClickClear = () => {
+      if (!onClear) {
+        return;
+      }
 
-    onClear();
-  };
+      onClear();
+    };
 
-  const clearIcon = (
-    <StyledClear>
-      <Icon type="close" onClick={onClickClear} tabIndex={0} />
-    </StyledClear>
-  );
+    const clearIcon = (
+      <StyledClear>
+        <Icon type="close" onClick={onClickClear} tabIndex={0} />
+      </StyledClear>
+    );
 
-  const showClear = hasClear && Boolean(props.value);
+    const showClear = hasClear && Boolean(props.value);
 
-  return (
-    <StyledInput>
-      {icon && <StyledIcon>{icon}</StyledIcon>}
-      <StyledInputControl icon={icon} {...props} />
-      {showClear && clearIcon}
-    </StyledInput>
-  );
-};
+    return (
+      <StyledInput>
+        {icon && <StyledIcon>{icon}</StyledIcon>}
+        <StyledInputControl icon={icon} ref={ref} {...props} />
+        {showClear && clearIcon}
+      </StyledInput>
+    );
+  }
+);
