@@ -6,7 +6,6 @@
     "@emotion/core": "^10.0.22",
     "@emotion/styled": "^10.0.23",
     "emotion": "^10.0.23",
-    "emotion-theming": "^10.0.19",
     "express": "4.17.1",
     "intersection-observer": "^0.7.0",
     "json-server": "0.15.1",
