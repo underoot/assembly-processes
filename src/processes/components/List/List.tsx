@@ -16,10 +16,6 @@ const StyledListContent = styled.div`
 
   @media (max-width: 1024px) {
     grid-row: 2;
-    grid-column: 1 / 12;
-  }
-
-  @media (max-width: 768px) {
     grid-column: 1;
   }
 `;

@@ -17,6 +17,10 @@ const StyledTitle = styled.h2`
   font: var(--heading-size-medium);
   font-weight: 600;
   margin-right: var(--space-size-small);
+
+  @media (max-width: 414px) {
+    display: none;
+  }
 `;
 
 const StyledTitleText = styled.span`
@@ -43,6 +47,11 @@ const StyledTicker = styled.span`
 const StyledControls = styled.div`
   display: flex;
   align-items: center;
+
+  @media (max-width: 414px) {
+    flex-direction: column;
+    width: 100%;
+  }
 `;
 
 const StyledSwitch = styled.div`
@@ -53,6 +62,12 @@ const StyledSwitch = styled.div`
 const StyledInput = styled.div`
   @media (min-width: 1440px) {
     width: 300px;
+  }
+
+  @media (max-width: 414px) {
+    width: 100%;
+    order: -1;
+    margin-bottom: var(--space-size-small);
   }
 `;
 

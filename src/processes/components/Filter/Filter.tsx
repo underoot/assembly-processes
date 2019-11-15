@@ -19,7 +19,7 @@ const StyledPane = styled.div<IFilterPaneProps>`
   align-self: flex-start;
   top: 0px;
 
-  min-width: 240px;
+  max-width: 240px;
 
   background-color: var(--color-background);
   padding: var(--space-size-medium) var(--space-size-medium)
@@ -34,11 +34,9 @@ const StyledPane = styled.div<IFilterPaneProps>`
 
   @media (max-width: 1024px) {
     grid-row: 1;
-    grid-column: 1 / 12;
-  }
-
-  @media (max-width: 768px) {
     grid-column: 1;
+    width: 100%;
+    max-width: unset;
   }
 `;
 

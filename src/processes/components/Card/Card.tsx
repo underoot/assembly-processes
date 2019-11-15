@@ -27,6 +27,15 @@ const StyledButton = styled.button`
   font: var(--paragraph-size-medium);
   color: var(--color-default);
   background-color: var(--color-focus);
+
+  @media (max-width: 414px) {
+    display: inline-block;
+    position: relative;
+    right: 0;
+    bottom: 0;
+    margin-top: var(--space-size-small);
+    width: 100%;
+  }
 `;
 
 const StyledButtonIcon = styled.span`
@@ -39,6 +48,11 @@ const StyledToolbox = styled.div`
   position: absolute;
   top: var(--space-size-medium);
   right: var(--space-size-medium);
+
+  @media (max-width: 414px) {
+    top: var(--space-size-extra-small);
+    display: block;
+  }
 `;
 
 const StyledCard = styled.div`
@@ -58,6 +72,10 @@ const StyledCard = styled.div`
     }
   }
 
+  @media (max-width: 414px) {
+    padding-top: var(--space-size-extra-large);
+  }
+
   & + & {
     margin-top: var(--space-size-extra-small);
   }
@@ -67,6 +85,12 @@ const StyledImage = styled.img`
   width: 160px;
   height: 100px;
   margin-right: 40px;
+
+  @media (max-width: 414px) {
+    width: 100%;
+    height: auto;
+    margin-right: 0px;
+  }
 `;
 
 const StyledDescription = styled.div``;
@@ -78,6 +102,10 @@ const StyledTitle = styled.h3`
 const StyledInfo = styled.div`
   font: var(--paragraph-size-medium);
   width: 300px;
+
+  @media (max-width: 414px) {
+    width: 100%;
+  }
 `;
 
 const StyledInfoLine = styled.div`
