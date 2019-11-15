@@ -116,7 +116,7 @@ const StyledInfoLine = styled.div`
     border-bottom: 1px solid var(--color-primary);
     flex-grow: 1;
     order: 2;
-    margin: 5px;
+    margin: 8px;
   }
 `;
 
