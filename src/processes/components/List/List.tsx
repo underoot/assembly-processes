@@ -4,6 +4,10 @@ import { fromEvent } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
 import { IListProps } from 'processes/components/List/types';
+import {
+  SCROLL_DEBOUNCE_TIME,
+  SCROLL_MARGIN
+} from 'processes/components/List/constants';
 import { Card } from 'processes/components/Card';
 
 const StyledListContent = styled.div`
@@ -71,13 +75,13 @@ export const ProcessesList = ({
         return;
       }
 
-      if (curr.scrollTop + 400 >= curr.clientHeight) {
+      if (curr.scrollTop + SCROLL_MARGIN >= curr.clientHeight) {
         onIncrementPage();
       }
     };
 
     const subscription = fromEvent(ref.current, 'scroll')
-      .pipe(debounceTime(200))
+      .pipe(debounceTime(SCROLL_DEBOUNCE_TIME))
       .subscribe(onScroll);
 
     return () => {
