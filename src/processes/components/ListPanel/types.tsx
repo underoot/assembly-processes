@@ -7,4 +7,5 @@ export interface IListPanelProps {
   search: string;
   onChangeSearch: (search: string) => void;
   onClearSearch: () => void;
+  isLoading: boolean;
 }

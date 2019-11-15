@@ -22,7 +22,8 @@ export const Page = () => {
     clearSearchTerm,
 
     count,
-    processes
+    processes,
+    isLoading
   } = useProcesses();
 
   return (
@@ -46,6 +47,7 @@ export const Page = () => {
             search={searchTerm}
             onChangeSearch={changeSearchTerm}
             onClearSearch={clearSearchTerm}
+            isLoading={isLoading}
           />
         }
       />

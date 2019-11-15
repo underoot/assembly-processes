@@ -26,4 +26,5 @@ export interface IGetProcessesParams extends ISearchParams {
   changeProcesses: (processes: IProcess[]) => void;
   changeCount: (count: number) => void;
   changePage: (page: number) => void;
+  changeLoading: (state: boolean) => void;
 }

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 import { ICountable } from 'common/types';
 import { apiRequest, IAPIRequest } from 'common/operators/api';
@@ -17,7 +17,8 @@ export const useGetProcesses = ({
   processes,
   changeProcesses,
   changeCount,
-  changePage
+  changePage,
+  changeLoading
 }: IGetProcessesParams) => {
   const processesSerialized = processes.length
     ? processes[processes.length - 1].id
@@ -40,7 +41,9 @@ export const useGetProcesses = ({
       }
     })
       .pipe(
+        tap(() => changeLoading(true)),
         apiRequest<ICountable<IProcess>>(),
+        tap(() => changeLoading(false)),
         map(p => {
           changeCount(p.count);
           return p.items;

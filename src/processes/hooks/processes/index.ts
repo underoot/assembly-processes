@@ -23,6 +23,8 @@ export const useProcesses = () => {
     sortOrder: sortOrderSearch
   } = getURLSearch<ISearchParams>();
 
+  const [isLoading, changeLoading] = useState(false);
+
   const [processes, changeProcesses] = useState([] as IProcess[]);
   const [count, changeCount] = useState(0);
 
@@ -74,7 +76,8 @@ export const useProcesses = () => {
     processes,
     changeProcesses,
     changeCount,
-    changePage
+    changePage,
+    changeLoading
   });
 
   return {
@@ -92,6 +95,8 @@ export const useProcesses = () => {
     incrementPage,
     clearSearchTerm: () => changeSearchTerm(''),
     deleteProcess,
-    changeTitle
+    changeTitle,
+
+    isLoading
   };
 };

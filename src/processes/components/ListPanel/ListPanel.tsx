@@ -5,6 +5,7 @@ import { Switch } from 'common/components/Switch';
 import { Input } from 'common/components/Input';
 import { SortOrder } from 'common/types';
 import { Icon } from 'common/components/Icon';
+import { Loader } from 'common/components/Loader';
 
 import { IListPanelProps } from 'processes/components/ListPanel/types';
 
@@ -27,6 +28,10 @@ const StyledTitleText = styled.span`
   @media (max-width: 1366px) {
     display: none;
   }
+`;
+
+const StyledLoader = styled.span`
+  margin-left: var(--space-size-extra-small);
 `;
 
 const StyledTicker = styled.span`
@@ -87,13 +92,22 @@ export const ListPanel = ({
   onChangeOrder,
   search,
   onChangeSearch,
-  onClearSearch
+  onClearSearch,
+  isLoading
 }: IListPanelProps) => {
+  const ticker = isLoading ? (
+    <StyledLoader>
+      <Loader size="s" />
+    </StyledLoader>
+  ) : (
+    Boolean(count) && <StyledTicker>{count}</StyledTicker>
+  );
+
   return (
     <StyledPanel>
       <StyledTitle>
         <StyledTitleText>Assembly Process</StyledTitleText>
-        {Boolean(count) && <StyledTicker>{count}</StyledTicker>}
+        {ticker}
       </StyledTitle>
       <StyledControls>
         <StyledLabel>Show</StyledLabel>
