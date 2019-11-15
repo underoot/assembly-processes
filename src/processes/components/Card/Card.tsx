@@ -22,8 +22,7 @@ const StyledButton = styled.button`
   bottom: var(--space-size-medium);
   border: none;
   border-radius: 4px;
-  padding: var(--space-size-extra-small) var(--space-size-extra-large)
-    var(--space-size-extra-small) var(--space-size-extra-small);
+  padding: 8px var(--space-size-extra-large) 8px var(--space-size-extra-small);
   font: var(--paragraph-size-medium);
   color: var(--color-default);
   background-color: var(--color-focus);
