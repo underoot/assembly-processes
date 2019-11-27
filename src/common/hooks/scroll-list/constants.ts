@@ -1,0 +1,2 @@
+export const DEFAULT_SCROLL_MARGIN = 400;
+export const DEFAULT_SCROLL_DEBOUNCE_TIME = 200;

@@ -1,0 +1,85 @@
+{
+  "name": "assembly-process",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@emotion/core": "^10.0.22",
+    "@emotion/styled": "^10.0.23",
+    "emotion": "^10.0.23",
+    "express": "4.17.1",
+    "intersection-observer": "^0.7.0",
+    "json-server": "0.15.1",
+    "query-string": "^5.1.1",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
+    "rxjs": "^6.5.3",
+    "url-search-params-polyfill": "^7.0.0",
+    "whatwg-fetch": "^3.0.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "start:server": "node src/server",
+    "build": "react-scripts build",
+    "storybook": "start-storybook",
+    "test": "react-scripts test",
+    "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache",
+    "eject": "react-scripts eject",
+    "lint": "npm-run-all lint:*",
+    "lint:ts": "eslint --ext js,ts,tsx src",
+    "lint:css": "stylelint src/**/*.tsx"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all",
+      "ie 11"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@storybook/react": "^5.2.6",
+    "@types/enzyme": "3.10.3",
+    "@types/jest": "^24.0.22",
+    "@types/node": "^12.12.6",
+    "@types/query-string": "^5.1.0",
+    "@types/react": "^16.9.11",
+    "@types/react-dom": "^16.9.4",
+    "@types/storybook__react": "^4.0.2",
+    "enzyme": "3.10.0",
+    "enzyme-adapter-react-16": "1.15.1",
+    "eslint": "^6.6.0",
+    "eslint-config-prettier": "^6.5.0",
+    "husky": "^3.0.9",
+    "lint-staged": "^9.4.2",
+    "npm-run-all": "4.1.5",
+    "prettier": "^1.19.1",
+    "react-scripts": "^3.2.0",
+    "react-test-renderer": "16.11.0",
+    "stylelint": "11.1.1",
+    "stylelint-config-prettier": "6.0.0",
+    "stylelint-config-recommended": "3.0.0",
+    "stylelint-config-styled-components": "0.1.1",
+    "stylelint-prettier": "1.1.1",
+    "stylelint-processor-styled-components": "1.8.0",
+    "typescript": "^3.7.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint && lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json}": [
+      "prettier --write",
+      "git add"
+    ]
+  }
+}
