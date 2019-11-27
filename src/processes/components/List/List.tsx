@@ -1,13 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
-import { fromEvent } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+
+import { useScrollList } from 'common/hooks/scroll-list';
 
 import { IListProps } from 'processes/components/List/types';
-import {
-  SCROLL_DEBOUNCE_TIME,
-  SCROLL_MARGIN
-} from 'processes/components/List/constants';
 import { Card } from 'processes/components/Card';
 
 const StyledListContent = styled.div`
@@ -55,35 +51,7 @@ export const ProcessesList = ({
 }: IListProps) => {
   const ref = useRef<HTMLElement>(null);
 
-  useEffect(() => {
-    if (!ref.current) {
-      return;
-    }
-
-    const onScroll = (e: Event) => {
-      if (!e.target) {
-        return;
-      }
-
-      const curr = e.target as HTMLElement;
-
-      if (curr.scrollHeight <= curr.clientHeight) {
-        return;
-      }
-
-      if (curr.scrollTop + SCROLL_MARGIN >= curr.clientHeight) {
-        onIncrementPage();
-      }
-    };
-
-    const subscription = fromEvent(ref.current, 'scroll')
-      .pipe(debounceTime(SCROLL_DEBOUNCE_TIME))
-      .subscribe(onScroll);
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [ref, onIncrementPage]);
+  useScrollList(ref, onIncrementPage);
 
   return (
     <StyledListContent>
